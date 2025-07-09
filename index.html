@@ -12,7 +12,7 @@
 
       @media (max-width: 600px) {
         model-viewer {
-          height: 70vh; /* 画面幅が600px以下のとき高さを70%に変更 */
+          height: 70vh; /* スマホ縦画面時の高さを調整 */
         }
       }
 
@@ -29,10 +29,14 @@
   </head>
   <body>
     <model-viewer 
-      src="flare_c.vrm" /* 3Dモデルファイルの指定（glb/gltf推奨） */
-      camera-controls 
-      camera-orbit="120deg 50deg 10m" /* カメラの初期位置設定 */
-      poster="assets/loding.gif" /* 読み込み中に表示する画像 */
+      id="viewer"
+      src="flare_c.vrm" /* 3Dモデルファイルの指定 */
+      camera-controls
+      camera-orbit="120deg 50deg 10m" /* 初期カメラ位置 */
+      min-camera-orbit="auto auto 8m" /* カメラ距離の下限 */
+      max-camera-orbit="auto auto 12m" /* カメラ距離の上限 */
+      field-of-view="35deg"
+      poster="assets/loding.gif"
       alt="non"
       shadow-intensity="2"
       shadow-softness="1"
@@ -43,36 +47,47 @@
       interaction-prompt="none"
     >
 
-      <!-- アノテーション（ホットスポット）の追加 -->
+      <!-- 顔のあたり -->
       <button class="hotspot"
-        slot="hotspot-1" /* アノテーション識別用の名前。複数あってもOK */
-        data-position="0 1.85 0" /* アノテーションの表示位置を3D座標で指定（X Y Z） */
-        data-normal="0 1 0"> <!-- アノテーションが向く方向のベクトル（上を向くなら0 1 0） -->
-        
-        顔のあたり"0 1.85 0" <!-- ← ここを書き換えるとアノテーションに表示される文字が変わります-->
-
+        slot="hotspot-1"
+        data-position="0 1.85 0"
+        data-normal="0 1 0">
+        顔のあたり
       </button>
 
-      <!-- 二つ目のアノテーションの追加 -->
+      <!-- 右手のあたり -->
       <button class="hotspot"
-        slot="hotspot-2" /* 2つ目のアノテーション用の識別名（一意にする） */
-        data-position="0.8 1.55 0" /* 右手あたりの位置に変更（例としてX方向にオフセット） */
-        data-normal="0 1 0"> <!-- アノテーションが向く方向（上向き） -->
-
-        右手のあたり"0.9 1.4 0" <!-- ← 表示したい注釈テキスト -->
-
+        slot="hotspot-2"
+        data-position="0.8 1.55 0"
+        data-normal="0 1 0">
+        右手のあたり
       </button>
-      
-      <!-- 三つ目のアノテーションの追加 -->
-      <button class="hotspot"
-        slot="hotspot-3" /* 3つ目のアノテーション用の識別名（一意にする） */
-        data-position="-0.8 1.55 0" /* 左手あたりの位置に調整（Xを負に） */
-        data-normal="0 1 0"> <!-- アノテーションが向く方向（上向き） -->
-      
-        左手のあたり <!-- ← 表示したい注釈テキスト -->
 
+      <!-- 左手のあたり -->
+      <button class="hotspot"
+        slot="hotspot-3"
+        data-position="-0.8 1.55 0"
+        data-normal="0 1 0">
+        左手のあたり
       </button>
 
     </model-viewer>
+
+    <!-- スマホ縦画面用のホットスポット位置・カメラ補正 -->
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        const viewer = document.getElementById('viewer');
+
+        if (window.innerWidth < 600) {
+          // スマホ表示用にカメラ位置調整
+          viewer.setAttribute('camera-orbit', '120deg 60deg 12m');
+
+          // アノテーションのY座標を少し上げて補正
+          document.querySelector('[slot="hotspot-1"]').setAttribute('data-position', '0 2.0 0');
+          document.querySelector('[slot="hotspot-2"]').setAttribute('data-position', '0.8 1.7 0');
+          document.querySelector('[slot="hotspot-3"]').setAttribute('data-position', '-0.8 1.7 0');
+        }
+      });
+    </script>
   </body>
 </html>
