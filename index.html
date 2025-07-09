@@ -7,19 +7,21 @@
       model-viewer {
         width: 100%;
         height: 100vh;
-        background-color: #110000;
+        background-color: #110000; /* 背景色の指定 */
       }
+
       @media (max-width: 600px) {
         model-viewer {
-          height: 70vh;
+          height: 70vh; /* 画面幅が600px以下のとき高さを70%に変更 */
         }
       }
+
       .hotspot {
-        background: rgba(255, 255, 255, 0.8);
-        border-radius: 6px;
-        padding: 4px 8px;
-        font-size: 14px;
-        border: none;
+        background: rgba(255, 255, 255, 0.8); /* アノテーションの背景色と透明度 */
+        border-radius: 6px; /* アノテーションの角を丸くする */
+        padding: 4px 8px; /* アノテーション内の余白 */
+        font-size: 14px; /* アノテーションの文字サイズ */
+        border: none; /* ボタンの枠線を消す */
         position: relative;
         z-index: 10;
       }
@@ -27,10 +29,10 @@
   </head>
   <body>
     <model-viewer 
-      src="flare_c.vrm"
+      src="flare_c.vrm" /* 3Dモデルファイルの指定（glb/gltf推奨） */
       camera-controls 
-      camera-orbit="120deg 50deg 10m"
-      poster="assets/loding.gif"
+      camera-orbit="120deg 50deg 10m" /* カメラの初期位置設定 */
+      poster="assets/loding.gif" /* 読み込み中に表示する画像 */
       alt="non"
       shadow-intensity="2"
       shadow-softness="1"
@@ -41,12 +43,14 @@
       interaction-prompt="none"
     >
 
-      <!-- アノテーション（ホットスポット） -->
+      <!-- アノテーション（ホットスポット）の追加 -->
       <button class="hotspot"
-        slot="hotspot-1"
-        data-position="0 1 0"
-        data-normal="0 1 0">
-        顔のあたり
+        slot="hotspot-1" /* アノテーション識別用の名前。複数あってもOK */
+        data-position="0 3 0" /* アノテーションの表示位置を3D座標で指定（X Y Z） */
+        data-normal="0 1 0"> /* アノテーションが向く方向のベクトル（上を向くなら0 1 0） */
+        
+        顔のあたりです /* ← ここを書き換えるとアノテーションに表示される文字が変わります */
+
       </button>
 
     </model-viewer>
