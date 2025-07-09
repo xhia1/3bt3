@@ -28,9 +28,7 @@
   <body> <!-- model-viewer 本体 -->
     <model-viewer 
       src="flare_c.vrm" <!-- 読み込む3Dモデルのファイル -->
-
-      camera-controls <!-- ユーザーがマウス・指で回転操作できるようにする -->
-      camera-orbit="120deg 50deg 10m" <!-- カメラの初期角度と距離 -->
+      camera-controls camera-orbit="120deg 50deg 10m" <!-- カメラの初期角度と距離 -->
       poster="assets/loding.gif" <!-- 読み込み中に表示する画像 -->
       alt="non"
       shadow-intensity="2" <!-- 影の濃さ -->
@@ -39,8 +37,7 @@
       ar
       ar-modes="webxr scene-viewer quick-look" <!-- ARモードの設定 -->
       loading="eager"
-      interaction-prompt="none"
-    >
+      interaction-prompt="none">
 
       <!-- ▼ アノテーション（ホットスポット）の追加 ▼ -->
       <button class="hotspot"
