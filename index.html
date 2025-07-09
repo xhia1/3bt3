@@ -3,52 +3,104 @@
   <head>
     <title>non vrm_test model-viewer</title>
 
-    <!-- model-viewer ライブラリの読み込み -->
+    <!-- model-viewer ライブラリを読み込み（3Dモデル表示に必要） -->
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
     <style>
       model-viewer {
         width: 100%;
         height: 100vh;
-        background-color: #110000; } <!-- 背景色を濃い赤黒に設定 -->      
-      @media (max-width: 600px) {model-viewer {height: 70vh;}} <!-- 画面幅が600px以下のとき、高さを70%に変更 -->
-              
+        background-color: #110000;
+        /* 背景の色を設定（ここでは濃い赤黒） */
+      }
+
+      @media (max-width: 600px) {
+        model-viewer {
+          height: 70vh;
+          /* 画面幅が600px以下の場合、縦の高さを70%にする */
+        }
+      }
+
       .hotspot {
-        background: rgba(255, 255, 255, 0.8); <!-- アノテーションの背景を白の半透明に -->
-        border-radius: 6px; <!-- アノテーションの角を丸くする -->
-        padding: 4px 8px; <!-- アノテーションの内側の余白 -->
-        font-size: 14px; <!-- 文字サイズ -->
-        border: none; <!-- 枠線を消す -->
+        background: rgba(255, 255, 255, 0.8);
+        /* アノテーション（ホットスポット）の背景を白の半透明に設定 */
+
+        border-radius: 6px;
+        /* アノテーションの角を丸くする */
+
+        padding: 4px 8px;
+        /* アノテーション内の文字まわりの余白 */
+
+        font-size: 14px;
+        /* アノテーション内の文字サイズ */
+
+        border: none;
+        /* アノテーションボタンの枠線を消す */
+
         position: relative;
         z-index: 10;
+        /* アノテーションを他の要素の前面に表示する */
       }
     </style>
   </head>
 
-  <body> <!-- model-viewer 本体 -->
+  <body>
+    <!-- model-viewer コンポーネントの開始：3Dモデルを表示する本体 -->
     <model-viewer 
-      src="flare_c.vrm" <!-- 読み込む3Dモデルのファイル -->
-      camera-controls camera-orbit="120deg 50deg 10m" <!-- カメラの初期角度と距離 -->
-      poster="assets/loding.gif" <!-- 読み込み中に表示する画像 -->
-      alt="non"
-      shadow-intensity="2" <!-- 影の濃さ -->
-      shadow-softness="1" <!-- 影の柔らかさ -->
-      auto-rotate <!-- 自動回転させる -->
-      ar
-      ar-modes="webxr scene-viewer quick-look" <!-- ARモードの設定 -->
-      loading="eager"
-      interaction-prompt="none">
+      src="flare_c.vrm"
+      <!-- 表示したい3Dモデルのファイル名（例：flare_c.vrm）を指定 -->
 
-      <!-- ▼ アノテーション（ホットスポット）の追加 ▼ -->
+      camera-controls
+      <!-- ユーザーが指やマウスでモデルを回転させられるようにする -->
+
+      camera-orbit="120deg 50deg 10m"
+      <!-- カメラの初期視点（水平角, 垂直角, 距離）を設定 -->
+
+      poster="assets/loding.gif"
+      <!-- モデル読み込み中に表示する画像ファイルを指定 -->
+
+      alt="non"
+      <!-- モデルの代替テキスト（アクセシビリティ対応用） -->
+
+      shadow-intensity="2"
+      <!-- モデルに落ちる影の濃さ（1〜3程度が自然） -->
+
+      shadow-softness="1"
+      <!-- 影のぼかし具合（0〜1の範囲で調整） -->
+
+      auto-rotate
+      <!-- モデルを自動でゆっくり回転させる -->
+
+      ar
+      ar-modes="webxr scene-viewer quick-look"
+      <!-- スマホ等でAR表示を可能にする（対応環境でのみ） -->
+
+      loading="eager"
+      <!-- ページ読み込み時にすぐモデルを読み込む -->
+
+      interaction-prompt="none"
+      <!-- 「ドラッグして回転」などの操作説明を非表示にする -->
+    >
+
+      <!-- ▼ アノテーション（ホットスポット）の定義部分 ▼ -->
       <button class="hotspot"
-        slot="hotspot-1" <!-- 複数設置できるホットスポットの名前。自由に変更可 -->
-        data-position="0 1.8 0" <!-- アノテーションの表示位置（X Y Z座標）を3D空間で指定 -->
-        data-normal="0 1 0"> <!-- アノテーションが向く方向のベクトル（ここでは上方向） -->
-        顔のあたりです <!-- 表示される文字（ここを書き換えると注釈が変わる） -->
+        slot="hotspot-1"
+        <!-- このアノテーションの名前。複数追加する時に識別用として使う -->
+
+        data-position="0 1 0"
+        <!-- モデル上のどこに表示するかを3D座標で指定（X Y Z） -->
+
+        data-normal="0 1 0">
+        <!-- アノテーションの向き。通常は「上向き」なので 0 1 0 -->
+
+        <!-- ▼ 実際に画面に表示される文字はここ ▼ -->
+        顔のあたりです
+        <!-- ↑この部分のテキストを変更すれば、表示される説明文を変えられます -->
 
       </button>
       <!-- ▲ アノテーションここまで ▲ -->
 
     </model-viewer>
+    <!-- model-viewer 終了 -->
   </body>
 </html>
